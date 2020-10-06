@@ -6,12 +6,14 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:meta/meta.dart';
 
-class HttpAdapter {
+import 'package:for_dev/data/http/http_client.dart';
+
+class HttpAdapter implements HttpClient {
   final client;
 
   HttpAdapter(this.client);
 
-  Future<void> request({
+  Future<Map> request({
     @required String url,
     @required String method,
     Map body,
@@ -20,8 +22,11 @@ class HttpAdapter {
       'content-type': 'application/json',
       'accept': 'application/json'
     };
+
     final json = body != null ? jsonEncode(body) : null;
-    await client.post(url, headers: headers, body: json);
+    final response = await client.post(url, headers: headers, body: json);
+
+    return jsonDecode(response.body);
   }
 }
 
@@ -40,6 +45,12 @@ void main() {
 
   group('post', () {
     test('Should call post with correct values', () async {
+      when(client.post(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
+
       await sut
           .request(url: url, method: 'post', body: {'any_key': 'any_value'});
 
@@ -56,6 +67,9 @@ void main() {
     });
 
     test('Should call post without body', () async {
+      when(client.post(any, headers: anyNamed('headers')))
+          .thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
+
       await sut.request(url: url, method: 'post');
 
       verify(
@@ -64,6 +78,15 @@ void main() {
           headers: anyNamed('headers'),
         ),
       );
+    });
+
+    test('Should return data if post returns 200', () async {
+      when(client.post(any, headers: anyNamed('headers')))
+          .thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
+
+      final response = await sut.request(url: url, method: 'post');
+
+      expect(response, {'any_key': 'any_value'});
     });
   });
 }
