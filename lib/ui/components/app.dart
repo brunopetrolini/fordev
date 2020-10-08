@@ -5,6 +5,7 @@ import '../pages/pages.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final kPrimaryColor = Color.fromRGBO(136, 14, 79, 1);
     final kPrimaryColorDark = Color.fromRGBO(96, 0, 39, 1);
     final kPrimaryColorLight = Color.fromRGBO(188, 71, 123, 1);
@@ -48,6 +49,12 @@ class App extends StatelessWidget {
           ),
         ),
       ),
+=======
+    return MaterialApp(
+      title: 'ForDev',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
+>>>>>>> 10ff675c320a8a862486b0f1a50879056a8d3c99
       home: LoginPage(),
     );
   }
