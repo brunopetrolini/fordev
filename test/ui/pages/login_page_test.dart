@@ -49,8 +49,6 @@ main() {
     expect(
       passwordTextChildren,
       findsOneWidget,
-      reason:
-          'when a TextFormField has only one text child, means it has no errors, since one of the childs is always the label text',
     );
 
     final button = tester.widget<RaisedButton>(find.byType(RaisedButton));
@@ -78,5 +76,36 @@ main() {
     await tester.pump();
 
     expect(find.text('any error'), findsOneWidget);
+  });
+
+  testWidgets('Should present no error ir email is valid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    emailErrorController.add(null);
+    await tester.pump();
+
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('E-mail'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('Should present no error ir email is valid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    emailErrorController.add('');
+    await tester.pump();
+
+    expect(
+        find.descendant(
+          of: find.bySemanticsLabel('E-mail'),
+          matching: find.byType(Text),
+        ),
+        findsOneWidget);
   });
 }
