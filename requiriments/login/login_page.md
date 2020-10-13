@@ -13,8 +13,7 @@
 10. ✅ Habilitar o botão de fazer login se todos os campos forem válidos
 11. ✅ Desabilitar o botão de login se algum campo for inválido
 12. Exibir loading no início da ação do login
-13. Autenticar usuário com email e senha informados no formulário
+13. ✅ Chamar o método de autenticação
 14. Exibir mensagem de erro caso o login falhe
-15. Gravar token do usuário no cache para mante-lô conectado
-16. Redirecionar o usuário para a tela de lista de enquetes
-17. Esconder o loading ao fim da ação de login
+15. Esconder o loading ao fim da ação de login
+16. Fechar streams quando a página for encerrada
