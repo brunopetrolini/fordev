@@ -12,12 +12,18 @@ class LoginPresenterSpy extends Mock implements LoginPresenter {}
 main() {
   LoginPresenter presenter;
   StreamController<String> emailErrorController;
+  StreamController<String> passwordErrorController;
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = LoginPresenterSpy();
+
     emailErrorController = StreamController<String>();
     when(presenter.emailErrorStream)
         .thenAnswer((_) => emailErrorController.stream);
+
+    passwordErrorController = StreamController<String>();
+    when(presenter.passwordErrorStream)
+        .thenAnswer((_) => passwordErrorController.stream);
 
     final loginPage = MaterialApp(home: LoginPage(presenter));
     await tester.pumpWidget(loginPage);
@@ -25,6 +31,7 @@ main() {
 
   tearDown(() {
     emailErrorController.close();
+    passwordErrorController.close();
   });
 
   testWidgets('Should load with correct initial state',
@@ -68,7 +75,7 @@ main() {
     verify(presenter.validatePassword(password));
   });
 
-  testWidgets('Should present error ir email is invalid',
+  testWidgets('Should present error is email is invalid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -78,7 +85,7 @@ main() {
     expect(find.text('any error'), findsOneWidget);
   });
 
-  testWidgets('Should present no error ir email is valid',
+  testWidgets('Should present no error is email is valid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -94,7 +101,7 @@ main() {
     );
   });
 
-  testWidgets('Should present no error ir email is valid',
+  testWidgets('Should present no error is email is valid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -104,6 +111,47 @@ main() {
     expect(
         find.descendant(
           of: find.bySemanticsLabel('E-mail'),
+          matching: find.byType(Text),
+        ),
+        findsOneWidget);
+  });
+
+  testWidgets('Should present error is password is invalid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add('any error');
+    await tester.pump();
+
+    expect(find.text('any error'), findsOneWidget);
+  });
+
+  testWidgets('Should present no error is password is valid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add(null);
+    await tester.pump();
+
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Senha'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('Should present no error is password is valid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add('');
+    await tester.pump();
+
+    expect(
+        find.descendant(
+          of: find.bySemanticsLabel('Senha'),
           matching: find.byType(Text),
         ),
         findsOneWidget);
