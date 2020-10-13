@@ -90,10 +90,14 @@ class LoginPage extends StatelessWidget {
                             );
                           }),
                     ),
-                    RaisedButton(
-                      onPressed: null,
-                      child: const Text('ENTRAR'),
-                    ),
+                    StreamBuilder<bool>(
+                        stream: presenter.isFormValidStream,
+                        builder: (context, snapshot) {
+                          return RaisedButton(
+                            onPressed: snapshot.data == true ? () {} : null,
+                            child: const Text('ENTRAR'),
+                          );
+                        }),
                     FlatButton.icon(
                       onPressed: () {},
                       icon: const Icon(Icons.person),
