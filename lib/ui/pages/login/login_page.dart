@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-
-import './login_presenter.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/components.dart';
+
+import './components/components.dart';
+import './login_presenter.dart';
 
 class LoginPage extends StatefulWidget {
   final LoginPresenter presenter;
@@ -43,99 +45,37 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  height: 240,
-                  margin: const EdgeInsets.only(bottom: 32),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Theme.of(context).primaryColorLight,
-                        Theme.of(context).primaryColorDark,
-                      ],
-                    ),
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: const Offset(0, 0),
-                        spreadRadius: 0,
-                        blurRadius: 4,
-                        color: Colors.black,
-                      ),
-                    ],
-                    borderRadius:
-                        BorderRadius.only(bottomLeft: Radius.circular(80)),
-                  ),
-                  child: const Image(
-                    image: AssetImage('lib/ui/assets/logo.png'),
-                  ),
-                ),
-                Text(
-                  'LOGIN',
-                  style: Theme.of(context).textTheme.headline1,
-                  textAlign: TextAlign.center,
-                ),
-                Form(
-                  child: Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: Column(
-                      children: [
-                        StreamBuilder<String>(
-                            stream: widget.presenter.emailErrorStream,
-                            builder: (context, snapshot) {
-                              return TextFormField(
-                                decoration: InputDecoration(
-                                  hintText: 'E-mail',
-                                  icon: Icon(
-                                    Icons.email,
-                                    color: Theme.of(context).primaryColorLight,
-                                  ),
-                                  errorText: snapshot.data?.isEmpty == true
-                                      ? null
-                                      : snapshot.data,
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                onChanged: widget.presenter.validateEmail,
-                              );
-                            }),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8, bottom: 32),
-                          child: StreamBuilder<String>(
-                              stream: widget.presenter.passwordErrorStream,
+                LoginHeader(),
+                Headline1(text: 'login'),
+                Provider(
+                  create: (_) => widget.presenter,
+                  child: Form(
+                    child: Padding(
+                      padding: const EdgeInsets.all(30),
+                      child: Column(
+                        children: [
+                          EmailInput(),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8, bottom: 32),
+                            child: PasswordInput(),
+                          ),
+                          StreamBuilder<bool>(
+                              stream: widget.presenter.isFormValidStream,
                               builder: (context, snapshot) {
-                                return TextFormField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Senha',
-                                    icon: Icon(
-                                      Icons.lock,
-                                      color:
-                                          Theme.of(context).primaryColorLight,
-                                    ),
-                                    errorText: snapshot.data?.isEmpty == true
-                                        ? null
-                                        : snapshot.data,
-                                  ),
-                                  obscureText: true,
-                                  onChanged: widget.presenter.validatePassword,
+                                return RaisedButton(
+                                  onPressed: snapshot.data == true
+                                      ? widget.presenter.auth
+                                      : null,
+                                  child: const Text('ENTRAR'),
                                 );
                               }),
-                        ),
-                        StreamBuilder<bool>(
-                            stream: widget.presenter.isFormValidStream,
-                            builder: (context, snapshot) {
-                              return RaisedButton(
-                                onPressed: snapshot.data == true
-                                    ? widget.presenter.auth
-                                    : null,
-                                child: const Text('ENTRAR'),
-                              );
-                            }),
-                        FlatButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.person),
-                          label: const Text('Criar Conta'),
-                        ),
-                      ],
+                          FlatButton.icon(
+                            onPressed: () {},
+                            icon: const Icon(Icons.person),
+                            label: const Text('Criar Conta'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

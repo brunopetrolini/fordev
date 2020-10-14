@@ -9,9 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.0
   http: ^0.12.2
+  provider: ^4.3.2+2
 
 dev_dependencies:
   flutter_test:
@@ -33,4 +33,3 @@ flutter_icons:
   image_path_ios: lib/ui/assets/icon/ios.png
   adaptive_icon_background: lib/ui/assets/icon/background.png
   adaptive_icon_foreground: lib/ui/assets/icon/foreground.png
-
