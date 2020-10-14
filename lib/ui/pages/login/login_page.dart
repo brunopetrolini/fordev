@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import './login_presenter.dart';
 
+import '../../components/components.dart';
+
 class LoginPage extends StatefulWidget {
   final LoginPresenter presenter;
 
@@ -15,7 +17,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     widget.presenter.dispose();
-
     super.dispose();
   }
 
@@ -26,29 +27,9 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context) {
           widget.presenter.isLoadingStream.listen((isLoading) {
             if (isLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                child: SimpleDialog(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 10),
-                        const Text(
-                          'Aguarde...',
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
+              showLoading(context);
             } else {
-              if (Navigator.canPop(context)) {
-                Navigator.of(context).pop();
-              }
+              hideLoading(context);
             }
           });
 
