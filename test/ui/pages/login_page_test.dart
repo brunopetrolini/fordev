@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:for_dev/ui/pages/pages.dart';
@@ -16,6 +17,7 @@ main() {
   StreamController<bool> isFormValidController;
   StreamController<bool> isLoadingController;
   StreamController<String> mainErrorController;
+  StreamController<String> natigateToController;
 
   void initStreams() {
     emailErrorController = StreamController<String>();
@@ -23,6 +25,7 @@ main() {
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
     mainErrorController = StreamController<String>();
+    natigateToController = StreamController<String>();
   }
 
   void mockStreams() {
@@ -36,6 +39,8 @@ main() {
         .thenAnswer((_) => isLoadingController.stream);
     when(presenter.mainErrorStream)
         .thenAnswer((_) => mainErrorController.stream);
+    when(presenter.navigateToStream)
+        .thenAnswer((_) => natigateToController.stream);
   }
 
   void closeStreams() {
@@ -44,6 +49,7 @@ main() {
     isFormValidController.close();
     isLoadingController.close();
     mainErrorController.close();
+    natigateToController.close();
   }
 
   Future<void> loadPage(WidgetTester tester) async {
@@ -52,7 +58,14 @@ main() {
     initStreams();
     mockStreams();
 
-    final loginPage = MaterialApp(home: LoginPage(presenter));
+    final loginPage = GetMaterialApp(
+      initialRoute: '/login',
+      getPages: [
+        GetPage(name: '/login', page: () => LoginPage(presenter)),
+        GetPage(
+            name: '/any_route', page: () => Scaffold(body: Text('fake page'))),
+      ],
+    );
     await tester.pumpWidget(loginPage);
   }
 
@@ -248,11 +261,13 @@ main() {
     expect(find.text('main erro'), findsOneWidget);
   });
 
-  testWidgets('Should close streams on dispose', (WidgetTester tester) async {
+  testWidgets('Should change page', (WidgetTester tester) async {
     await loadPage(tester);
 
-    addTearDown(() {
-      verify(presenter.dispose()).called(1);
-    });
+    natigateToController.add('/any_route');
+    await tester.pumpAndSettle();
+
+    expect(Get.currentRoute, '/any_route');
+    expect(find.text('fake page'), findsOneWidget);
   });
 }
