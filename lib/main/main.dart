@@ -15,10 +15,12 @@ class App extends StatelessWidget {
 
     return GetMaterialApp(
       title: '4Dev',
+      defaultTransition: Transition.fadeIn,
       debugShowCheckedModeBanner: false,
       theme: makeAppTheme(),
-      initialRoute: '/login',
+      initialRoute: '/',
       getPages: [
+        GetPage(name: '/', page: makeSplashPage),
         GetPage(name: '/login', page: makeLoginPage),
         GetPage(
           name: '/surveys',
