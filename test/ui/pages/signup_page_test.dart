@@ -268,4 +268,18 @@ main() {
         tester.widget<RaisedButton>(find.byType(RaisedButton));
     expect(buttonDisable.onPressed, null);
   });
+
+  testWidgets('Should call signUp on form submit', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    final button = find.byType(RaisedButton);
+
+    isFormValidController.add(true);
+    await tester.pump();
+    await tester.ensureVisible(button);
+    await tester.tap(button);
+    await tester.pump();
+
+    verify(presenter.signUp()).called(1);
+  });
 }
