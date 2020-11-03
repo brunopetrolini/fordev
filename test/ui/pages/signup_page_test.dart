@@ -18,6 +18,7 @@ main() {
   StreamController<String> passwordConfirmationErrorController;
   StreamController<bool> isFormValidController;
   StreamController<bool> isLoadingController;
+  StreamController<String> mainErrorController;
 
   void initStreams() {
     nameErrorController = StreamController<String>();
@@ -26,6 +27,7 @@ main() {
     passwordConfirmationErrorController = StreamController<String>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
+    mainErrorController = StreamController<String>();
   }
 
   void mockStreams() {
@@ -41,6 +43,8 @@ main() {
         .thenAnswer((_) => isFormValidController.stream);
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
+    when(presenter.mainErrorStream)
+        .thenAnswer((_) => mainErrorController.stream);
   }
 
   void closeStreams() {
@@ -50,6 +54,7 @@ main() {
     passwordConfirmationErrorController.close();
     isFormValidController.close();
     isLoadingController.close();
+    mainErrorController.close();
   }
 
   Future<void> loadPage(WidgetTester tester) async {
@@ -306,5 +311,15 @@ main() {
     await tester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsNothing);
+  });
+
+  testWidgets('Should present error message if singUp fails',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    mainErrorController.add('main error');
+    await tester.pump();
+
+    expect(find.text('main error'), findsOneWidget);
   });
 }
