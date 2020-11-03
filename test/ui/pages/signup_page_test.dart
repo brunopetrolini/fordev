@@ -183,4 +183,32 @@ main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('Should present password error', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add('any error');
+    await tester.pump();
+    expect(find.text('any error'), findsOneWidget);
+
+    passwordErrorController.add(null);
+    await tester.pump();
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Senha'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+
+    passwordErrorController.add('');
+    await tester.pump();
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Senha'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+  });
 }
