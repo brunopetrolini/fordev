@@ -155,4 +155,32 @@ main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('Should present name error', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    nameErrorController.add('any error');
+    await tester.pump();
+    expect(find.text('any error'), findsOneWidget);
+
+    nameErrorController.add(null);
+    await tester.pump();
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Nome'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+
+    nameErrorController.add('');
+    await tester.pump();
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Nome'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+  });
 }
