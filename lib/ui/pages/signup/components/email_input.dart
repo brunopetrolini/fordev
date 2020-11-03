@@ -18,6 +18,7 @@ class EmailInput extends StatelessWidget {
               Icons.email,
               color: Theme.of(context).primaryColorLight,
             ),
+            errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
           ),
           keyboardType: TextInputType.emailAddress,
           onChanged: presenter.validateEmail,

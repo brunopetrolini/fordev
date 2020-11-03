@@ -127,4 +127,32 @@ main() {
     await tester.enterText(find.bySemanticsLabel('Confirmar Senha'), password);
     verify(presenter.validatePasswordConfirmation(password));
   });
+
+  testWidgets('Should present email error', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    emailErrorController.add('any error');
+    await tester.pump();
+    expect(find.text('any error'), findsOneWidget);
+
+    emailErrorController.add(null);
+    await tester.pump();
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('E-mail'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+
+    emailErrorController.add('');
+    await tester.pump();
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('E-mail'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+  });
 }
