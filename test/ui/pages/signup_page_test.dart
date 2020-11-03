@@ -211,4 +211,33 @@ main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('Should present confirm password error',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordConfirmationErrorController.add('any error');
+    await tester.pump();
+    expect(find.text('any error'), findsOneWidget);
+
+    passwordConfirmationErrorController.add(null);
+    await tester.pump();
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Confirmar Senha'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+
+    passwordConfirmationErrorController.add('');
+    await tester.pump();
+    expect(
+      find.descendant(
+        of: find.bySemanticsLabel('Confirmar Senha'),
+        matching: find.byType(Text),
+      ),
+      findsOneWidget,
+    );
+  });
 }
