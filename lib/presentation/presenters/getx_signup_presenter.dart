@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:get/get.dart';
 
+import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/usecases.dart';
 
 import '../protocols/protocols.dart';
@@ -19,14 +20,18 @@ class GetxSignUpPresenter extends GetxController {
   var _nameError = RxString();
   var _passwordError = RxString();
   var _passwordConfirmationError = RxString();
+  var _mainError = RxString();
   var _isFormValid = false.obs;
+  var _isLoading = false.obs;
 
   Stream<String> get emailErrorStream => _emailError.stream.distinct();
   Stream<String> get nameErrorStream => _nameError.stream.distinct();
   Stream<String> get passwordErrorStream => _passwordError.stream.distinct();
   Stream<String> get passwordConfirmationStream =>
       _passwordConfirmationError.stream.distinct();
+  Stream<String> get mainErrorStream => _mainError.stream.distinct();
   Stream<bool> get isFormValidStream => _isFormValid.stream.distinct();
+  Stream<bool> get isLoadingStream => _isLoading.stream.distinct();
 
   GetxSignUpPresenter({
     @required this.validation,
@@ -72,6 +77,7 @@ class GetxSignUpPresenter extends GetxController {
   }
 
   Future<void> signUp() async {
+    _isLoading.value = true;
     try {
       final account = await addAccount.add(AddAccountParams(
         name: _name,
@@ -80,6 +86,9 @@ class GetxSignUpPresenter extends GetxController {
         passwordConfimation: _passwordConfirmation,
       ));
       await saveCurrentAccount.save(account);
-    } catch (error) {}
+    } on DomainError catch (error) {
+      _mainError.value = error.description;
+      _isLoading.value = false;
+    }
   }
 }
