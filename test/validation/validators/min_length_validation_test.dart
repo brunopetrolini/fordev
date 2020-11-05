@@ -11,7 +11,7 @@ class MinLengthValidation implements FieldValidation {
   MinLengthValidation({@required this.field, @required this.size});
 
   String validate(String value) {
-    return 'Mínimo de 6 caracteres';
+    return value?.length == size ? null : 'Mínimo de 6 caracteres';
   }
 }
 
@@ -31,7 +31,11 @@ void main() {
   });
 
   test('Should return erro if value is less than min size', () {
-    expect(sut.validate(faker.randomGenerator.string(4, min: 1)),
+    expect(sut.validate(faker.randomGenerator.string(5, min: 1)),
         'Mínimo de 6 caracteres');
+  });
+
+  test('Should return null if value is equal than min size', () {
+    expect(sut.validate(faker.randomGenerator.string(6, min: 6)), null);
   });
 }
