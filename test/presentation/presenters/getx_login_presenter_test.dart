@@ -181,7 +181,7 @@ void main() {
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
     sut.mainErrorStream.listen(expectAsync1(
       (error) =>
-          expect(error, 'Algo errado aconteceu. Tente novamente em breve.'),
+          expect(error, 'Algo errado aconteceu. Tente novamente em breve'),
     ));
 
     await sut.auth();
@@ -205,7 +205,7 @@ void main() {
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
     sut.mainErrorStream.listen(expectAsync1(
       (error) =>
-          expect(error, 'Algo errado aconteceu. Tente novamente em breve.'),
+          expect(error, 'Algo errado aconteceu. Tente novamente em breve'),
     ));
 
     await sut.auth();

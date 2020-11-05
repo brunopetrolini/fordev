@@ -40,6 +40,10 @@ void main() {
     mockAddAccountCall().thenAnswer((_) async => AccountEntity(token: token));
   }
 
+  void mockAddAccountError(DomainError error) {
+    mockAddAccountCall().thenThrow(error);
+  }
+
   PostExpectation mockSaveCurrentAccountCall() =>
       when(saveCurrentAccount.save(any));
 
@@ -226,7 +230,7 @@ void main() {
     expectLater(sut.isLoadingStream, emitsInAnyOrder([true, false]));
     sut.mainErrorStream.listen(expectAsync1(
       (error) =>
-          expect(error, 'Algo errado aconteceu. Tente novamente em breve.'),
+          expect(error, 'Algo errado aconteceu. Tente novamente em breve'),
     ));
 
     await sut.signUp();
@@ -239,6 +243,36 @@ void main() {
     sut.validatePasswordConfirmation(passwordConfirmation);
 
     expectLater(sut.isLoadingStream, emits(true));
+
+    await sut.signUp();
+  });
+
+  test('Should emits correct events on EmailInUseError', () async {
+    mockAddAccountError(DomainError.emailInUse);
+
+    sut.validateName(name);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+
+    expectLater(sut.isLoadingStream, emitsInAnyOrder([true, false]));
+    sut.mainErrorStream.listen(
+        expectAsync1((error) => expect(error, 'O email já esta em uso')));
+
+    await sut.signUp();
+  });
+
+  test('Should emits correct events on UnexpectedError', () async {
+    mockAddAccountError(DomainError.unexpected);
+
+    sut.validateName(name);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+
+    expectLater(sut.isLoadingStream, emitsInAnyOrder([true, false]));
+    sut.mainErrorStream.listen(expectAsync1((error) =>
+        expect(error, 'Algo errado aconteceu. Tente novamente em breve')));
 
     await sut.signUp();
   });
