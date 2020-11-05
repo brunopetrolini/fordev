@@ -162,15 +162,6 @@ void main() {
     await sut.auth();
   });
 
-  test('Should emit correct events on Authentication success', () async {
-    sut.validateEmail(email);
-    sut.validatePassword(password);
-
-    expectLater(sut.isLoadingStream, emits(true));
-
-    await sut.auth();
-  });
-
   test('Should change page on success', () async {
     sut.validateEmail(email);
     sut.validatePassword(password);

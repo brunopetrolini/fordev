@@ -1,8 +1,8 @@
 import 'package:faker/faker.dart';
-import 'package:for_dev/domain/helpers/helpers.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import 'package:for_dev/domain/helpers/helpers.dart';
 import 'package:for_dev/domain/entities/entities.dart';
 import 'package:for_dev/domain/usecases/usecases.dart';
 
@@ -228,6 +228,18 @@ void main() {
       (error) =>
           expect(error, 'Algo errado aconteceu. Tente novamente em breve.'),
     ));
+
+    await sut.signUp();
+  });
+
+  test('Should emit correct events on Authentication success', () async {
+    sut.validateName(name);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+
+    expectLater(sut.mainErrorStream, emits(null));
+    expectLater(sut.isLoadingStream, emits(true));
 
     await sut.signUp();
   });
