@@ -7,12 +7,14 @@ class GetxSignUpPresenter extends GetxController {
   final Validation validation;
 
   String _email;
-  String _password;
+  String _name;
 
   var _emailError = RxString();
+  var _nameError = RxString();
   var _isFormValid = false.obs;
 
   Stream<String> get emailErrorStream => _emailError.stream.distinct();
+  Stream<String> get nameErrorStream => _nameError.stream.distinct();
   Stream<bool> get isFormValidStream => _isFormValid.stream.distinct();
 
   GetxSignUpPresenter({@required this.validation});
@@ -20,6 +22,12 @@ class GetxSignUpPresenter extends GetxController {
   void validateEmail(String email) {
     _email = email;
     _emailError.value = validation.validate(field: 'email', value: _email);
+    _validateForm();
+  }
+
+  void validateName(String name) {
+    _name = name;
+    _nameError.value = validation.validate(field: 'name', value: _name);
     _validateForm();
   }
 

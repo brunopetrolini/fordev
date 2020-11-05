@@ -11,6 +11,7 @@ void main() {
   GetxSignUpPresenter sut;
   ValidationSpy validation;
   String email;
+  String name;
 
   PostExpectation mockValidationCall(String field) => when(validation.validate(
       field: field == null ? anyNamed('field') : field,
@@ -24,6 +25,7 @@ void main() {
     validation = ValidationSpy();
     sut = GetxSignUpPresenter(validation: validation);
     email = faker.internet.email();
+    name = faker.person.name();
     mockValidation();
   });
 
@@ -45,12 +47,38 @@ void main() {
     sut.validateEmail(email);
   });
 
-  test('Should emit null if validation succeeds', () async {
-    sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
+  test('Should emit null if email validation succeeds', () async {
+    sut.nameErrorStream.listen(expectAsync1((error) => expect(error, null)));
     sut.isFormValidStream
         .listen(expectAsync1((isValid) => expect(isValid, false)));
 
-    sut.validateEmail(email);
-    sut.validateEmail(email);
+    sut.validateName(name);
+    sut.validateName(name);
+  });
+
+  test('Should call Validation with correct name', () async {
+    sut.validateName(name);
+
+    verify(validation.validate(field: 'name', value: name)).called(1);
+  });
+
+  test('Should emit name error if validation fails', () async {
+    mockValidation(value: 'error');
+
+    sut.nameErrorStream.listen(expectAsync1((error) => expect(error, 'error')));
+    sut.isFormValidStream
+        .listen(expectAsync1((isValid) => expect(isValid, false)));
+
+    sut.validateName(name);
+    sut.validateName(name);
+  });
+
+  test('Should emit null if name validation succeeds', () async {
+    sut.nameErrorStream.listen(expectAsync1((error) => expect(error, null)));
+    sut.isFormValidStream
+        .listen(expectAsync1((isValid) => expect(isValid, false)));
+
+    sut.validateName(name);
+    sut.validateName(name);
   });
 }
