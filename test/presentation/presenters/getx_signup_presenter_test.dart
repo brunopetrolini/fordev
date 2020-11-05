@@ -161,7 +161,7 @@ void main() {
   test('Should emit password error if validation fails', () async {
     mockValidation(value: 'error');
 
-    sut.passwordConfirmationStream
+    sut.passwordConfirmationErrorStream
         .listen(expectAsync1((error) => expect(error, 'error')));
     sut.isFormValidStream
         .listen(expectAsync1((isValid) => expect(isValid, false)));
@@ -171,7 +171,7 @@ void main() {
   });
 
   test('Should emit null if password validation succeeds', () async {
-    sut.passwordConfirmationStream
+    sut.passwordConfirmationErrorStream
         .listen(expectAsync1((error) => expect(error, null)));
     sut.isFormValidStream
         .listen(expectAsync1((isValid) => expect(isValid, false)));
@@ -287,5 +287,11 @@ void main() {
         .listen(expectAsync1((page) => expect(page, '/surveys')));
 
     await sut.signUp();
+  });
+
+  test('Should go to LoginPage on link click', () async {
+    sut.navigateToStream.listen(expectAsync1((page) => expect(page, '/login')));
+
+    sut.goToLogin();
   });
 }

@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/usecases.dart';
 
+import '../../ui/pages/pages.dart';
+
 import '../protocols/protocols.dart';
 
-class GetxSignUpPresenter extends GetxController {
+class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
   final Validation validation;
   final AddAccount addAccount;
   final SaveCurrentAccount saveCurrentAccount;
@@ -28,7 +30,7 @@ class GetxSignUpPresenter extends GetxController {
   Stream<String> get emailErrorStream => _emailError.stream.distinct();
   Stream<String> get nameErrorStream => _nameError.stream.distinct();
   Stream<String> get passwordErrorStream => _passwordError.stream.distinct();
-  Stream<String> get passwordConfirmationStream =>
+  Stream<String> get passwordConfirmationErrorStream =>
       _passwordConfirmationError.stream.distinct();
   Stream<String> get mainErrorStream => _mainError.stream.distinct();
   Stream<String> get navigateToStream => _navigateTo.stream.distinct();
@@ -93,5 +95,9 @@ class GetxSignUpPresenter extends GetxController {
       _mainError.value = error.description;
       _isLoading.value = false;
     }
+  }
+
+  void goToLogin() {
+    _navigateTo.value = '/login';
   }
 }
