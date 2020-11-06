@@ -50,6 +50,7 @@ class SignUpPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  SignUpHeader(),
                   Headline1(text: 'novo usuário'),
                   Provider(
                     create: (_) => presenter,
