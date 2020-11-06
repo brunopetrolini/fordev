@@ -43,29 +43,36 @@ class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
     @required this.saveCurrentAccount,
   });
 
+  Map _fromForm() => {
+        'name': _name,
+        'email': _email,
+        'password': _password,
+        'passwordConfirmation': _passwordConfirmation
+      };
+
   void validateEmail(String email) {
     _email = email;
-    _emailError.value = validation.validate(field: 'email', value: _email);
+    _emailError.value = validation.validate(field: 'email', input: _fromForm());
     _validateForm();
   }
 
   void validateName(String name) {
     _name = name;
-    _nameError.value = validation.validate(field: 'name', value: _name);
+    _nameError.value = validation.validate(field: 'name', input: _fromForm());
     _validateForm();
   }
 
   void validatePassword(String password) {
     _password = password;
     _passwordError.value =
-        validation.validate(field: 'password', value: _password);
+        validation.validate(field: 'password', input: _fromForm());
     _validateForm();
   }
 
   void validatePasswordConfirmation(String passwordConfirmation) {
     _passwordConfirmation = passwordConfirmation;
-    _passwordConfirmationError.value = validation.validate(
-        field: 'passwordConfirmation', value: _passwordConfirmation);
+    _passwordConfirmationError.value =
+        validation.validate(field: 'passwordConfirmation', input: _fromForm());
     _validateForm();
   }
 

@@ -4,15 +4,17 @@ import 'package:for_dev/validation/protocols/protocols.dart';
 
 class CompareFieldsValidation implements FieldValidation {
   final String field;
-  final String valueToCompare;
+  final String fieldToCompare;
 
   CompareFieldsValidation({
     @required this.field,
-    @required this.valueToCompare,
+    @required this.fieldToCompare,
   });
 
   @override
-  String validate(String value) {
-    return value == valueToCompare ? null : 'Os valores devem ser iguais';
-  }
+  String validate(Map input) => input[field] != null &&
+          input[fieldToCompare] != null &&
+          input[field] != input[fieldToCompare]
+      ? 'Campo inválido'
+      : null;
 }

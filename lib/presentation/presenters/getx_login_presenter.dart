@@ -37,16 +37,18 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
     @required this.saveCurrentAccout,
   });
 
+  Map _fromForm() => {'email': _email, 'password': _password};
+
   void validateEmail(String email) {
     _email = email;
-    _emailError.value = validation.validate(field: 'email', value: _email);
+    _emailError.value = validation.validate(field: 'email', input: _fromForm());
     _validateForm();
   }
 
   void validatePassword(String password) {
     _password = password;
     _passwordError.value =
-        validation.validate(field: 'password', value: _password);
+        validation.validate(field: 'password', input: _fromForm());
     _validateForm();
   }
 
