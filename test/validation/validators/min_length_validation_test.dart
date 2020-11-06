@@ -11,16 +11,16 @@ void main() {
   });
 
   test('Should return error if value is empty', () {
-    expect(sut.validate({'any_field': ''}), 'Mínimo de 6 caracteres');
+    expect(sut.validate({'any_field': ''}), 'Campo inválido');
   });
 
   test('Should return error if value is null', () {
-    expect(sut.validate({'any_field': null}), 'Mínimo de 6 caracteres');
+    expect(sut.validate({'any_field': null}), 'Campo inválido');
   });
 
   test('Should return erro if value is less than min size', () {
     expect(sut.validate({'any_field': faker.randomGenerator.string(5, min: 1)}),
-        'Mínimo de 6 caracteres');
+        'Campo inválido');
   });
 
   test('Should return null if value is equal than min size', () {

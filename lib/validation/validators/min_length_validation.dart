@@ -14,5 +14,5 @@ class MinLengthValidation extends Equatable implements FieldValidation {
   String validate(Map input) =>
       input[field] != null && input[field].length >= size
           ? null
-          : 'Mínimo de 6 caracteres';
+          : 'Campo inválido';
 }

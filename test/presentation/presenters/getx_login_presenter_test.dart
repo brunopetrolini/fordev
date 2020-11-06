@@ -182,11 +182,14 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
 
+    expectLater(
+      sut.mainErrorStream,
+      emitsInOrder([
+        null,
+        'Algo errado aconteceu. Tente novamente em breve',
+      ]),
+    );
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
-    sut.mainErrorStream.listen(expectAsync1(
-      (error) =>
-          expect(error, 'Algo errado aconteceu. Tente novamente em breve'),
-    ));
 
     await sut.auth();
   });
@@ -206,11 +209,14 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
 
+    expectLater(
+      sut.mainErrorStream,
+      emitsInOrder([
+        null,
+        'Algo errado aconteceu. Tente novamente em breve',
+      ]),
+    );
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
-    sut.mainErrorStream.listen(expectAsync1(
-      (error) =>
-          expect(error, 'Algo errado aconteceu. Tente novamente em breve'),
-    ));
 
     await sut.auth();
   });

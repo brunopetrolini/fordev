@@ -63,6 +63,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
     _isLoading.value = true;
 
     try {
+      _mainError.value = null;
       final account = await authentication
           .auth(AuthenticationParams(email: _email, secret: _password));
       await saveCurrentAccout.save(account);
