@@ -14,7 +14,7 @@ class CompareFieldsValidation implements FieldValidation {
 
   @override
   String validate(String value) {
-    return 'Os valores devem ser iguais';
+    return value == valueToCompare ? null : 'Os valores devem ser iguais';
   }
 }
 
@@ -28,5 +28,9 @@ void main() {
 
   test('Should return error if values are not equal', () {
     expect(sut.validate('wrong_value'), 'Os valores devem ser iguais');
+  });
+
+  test('Should return error if values are equal', () {
+    expect(sut.validate('any_value'), null);
   });
 }
