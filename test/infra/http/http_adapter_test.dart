@@ -186,5 +186,11 @@ void main() {
         ),
       );
     });
+
+    test('Should return data if get returns 200', () async {
+      final response = await sut.request(url: url, method: 'get');
+
+      expect(response, {"any_key": "any_value"});
+    });
   });
 }
