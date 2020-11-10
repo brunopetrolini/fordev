@@ -200,5 +200,13 @@ void main() {
 
       expect(response, null);
     });
+
+    test('Should return data if get returns 204', () async {
+      mockResponse(204, body: '');
+
+      final response = await sut.request(url: url, method: 'get');
+
+      expect(response, null);
+    });
   });
 }
