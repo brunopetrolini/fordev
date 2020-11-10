@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import './factories/factories.dart';
-
 import '../ui/components/components.dart';
+
+import 'factories/factories.dart';
 
 void main() => runApp(App());
 
@@ -23,14 +23,7 @@ class App extends StatelessWidget {
         GetPage(name: '/', page: makeSplashPage),
         GetPage(name: '/login', page: makeLoginPage),
         GetPage(name: '/signup', page: makeSignUpPage),
-        GetPage(
-          name: '/surveys',
-          page: () => Scaffold(
-            body: Center(
-              child: Text('Surveys'),
-            ),
-          ),
-        ),
+        GetPage(name: '/surveys', page: makeSurveysPage),
       ],
     );
   }

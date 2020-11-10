@@ -4,12 +4,14 @@ ThemeData makeAppTheme() {
   final kPrimaryColor = Color.fromRGBO(136, 14, 79, 1);
   final kPrimaryColorDark = Color.fromRGBO(96, 0, 39, 1);
   final kPrimaryColorLight = Color.fromRGBO(188, 71, 123, 1);
+  final kSecondaryColorDark = Color.fromRGBO(0, 37, 26, 1);
 
   return ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
     primaryColor: kPrimaryColor,
     primaryColorDark: kPrimaryColorDark,
     primaryColorLight: kPrimaryColorLight,
+    secondaryHeaderColor: kSecondaryColorDark,
     accentColor: kPrimaryColor,
     backgroundColor: Colors.white,
     textTheme: TextTheme(
