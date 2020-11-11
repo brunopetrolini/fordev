@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'surveys_presenter.dart';
+
+import '../../components/components.dart';
 
 import 'components/components.dart';
+import 'surveys_presenter.dart';
 
 class SurveysPage extends StatelessWidget {
   final SurveysPresenter presenter;
@@ -16,20 +18,30 @@ class SurveysPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Enquetes'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: CarouselSlider(
-          options: CarouselOptions(
-            enlargeCenterPage: true,
-            aspectRatio: 1,
+      body: Builder(builder: (context) {
+        presenter.isLoadingStream.listen((isLoading) {
+          if (isLoading == true) {
+            showLoading(context);
+          } else {
+            hideLoading(context);
+          }
+        });
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: CarouselSlider(
+            options: CarouselOptions(
+              enlargeCenterPage: true,
+              aspectRatio: 1,
+            ),
+            items: [
+              SurveyItem(),
+              SurveyItem(),
+              SurveyItem(),
+            ],
           ),
-          items: [
-            SurveyItem(),
-            SurveyItem(),
-            SurveyItem(),
-          ],
-        ),
-      ),
+        );
+      }),
     );
   }
 }
