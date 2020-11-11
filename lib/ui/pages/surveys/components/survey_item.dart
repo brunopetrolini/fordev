@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:for_dev/ui/pages/pages.dart';
 
 class SurveyItem extends StatelessWidget {
+  final SurveyViewModel viewModel;
+
+  SurveyItem(this.viewModel);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +27,7 @@ class SurveyItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '20 ago 2020',
+            viewModel.date,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -31,7 +36,7 @@ class SurveyItem extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Text(
-            'Qual é seu framework web favorito?',
+            viewModel.question,
             style: TextStyle(
               color: Colors.white,
               fontSize: 24,
