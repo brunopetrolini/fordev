@@ -4,15 +4,15 @@ import 'package:meta/meta.dart';
 class SurveyEntity extends Equatable {
   final String id;
   final String question;
-  final DateTime dateTime;
+  final DateTime date;
   final bool didAnswer;
 
-  List get props => [id, question, dateTime, didAnswer];
+  List get props => ['id', 'question', 'date', 'didAnswer'];
 
   SurveyEntity({
     @required this.id,
     @required this.question,
-    @required this.dateTime,
+    @required this.date,
     @required this.didAnswer,
   });
 }
