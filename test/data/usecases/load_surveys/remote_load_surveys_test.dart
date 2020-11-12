@@ -8,7 +8,7 @@ import 'package:for_dev/domain/entities/entities.dart';
 import 'package:for_dev/data/usecases/usecases.dart';
 import 'package:for_dev/data/http/http.dart';
 
-class HttpClientSpy extends Mock implements HttpClient<List<Map>> {}
+class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
   String url;
