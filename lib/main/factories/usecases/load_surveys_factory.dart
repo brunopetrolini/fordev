@@ -1,11 +1,12 @@
-import 'package:for_dev/data/usecases/load_surveys/load_surveys.dart';
-import 'package:for_dev/domain/usecases/usecases.dart';
-import 'package:for_dev/main/factories/http/api_url_factory.dart';
-import 'package:for_dev/main/factories/http/http_client_factory.dart';
+import '../../../data/usecases/usecases.dart';
+
+import '../../../domain/usecases/usecases.dart';
+
+import '../../factories/http/http.dart';
 
 LoadSurveys makeRemoteLoadSurveys() {
   return RemoteLoadSurveys(
-    httpClient: makeHttpAdapter(),
+    httpClient: makeAuthorizeHttpClientDecorator(),
     url: makeApiUrl('surveys'),
   );
 }
