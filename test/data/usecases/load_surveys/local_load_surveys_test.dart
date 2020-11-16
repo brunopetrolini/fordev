@@ -19,10 +19,15 @@ abstract class FetchCacheStorage {
 }
 
 void main() {
-  test('Should call FetchCacheStorage with correct key', () async {
-    final fetchCacheStorage = FetchCacheStorageSpy();
-    final sut = LoalLoadSurveys(fetchCacheStorage: fetchCacheStorage);
+  LoalLoadSurveys sut;
+  FetchCacheStorage fetchCacheStorage;
 
+  setUp(() {
+    fetchCacheStorage = FetchCacheStorageSpy();
+    sut = LoalLoadSurveys(fetchCacheStorage: fetchCacheStorage);
+  });
+
+  test('Should call FetchCacheStorage with correct key', () async {
     await sut.load();
 
     verify(fetchCacheStorage.fetch('surveys')).called(1);
