@@ -1,12 +1,13 @@
 import 'package:meta/meta.dart';
 
+import '../../../domain/usecases/usecases.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/helpers/helpers.dart';
 
 import '../../cache/cache.dart';
 import '../../models/models.dart';
 
-class LoalLoadSurveys {
+class LoalLoadSurveys implements LoadSurveys {
   final FetchCacheStorage fetchCacheStorage;
 
   LoalLoadSurveys({@required this.fetchCacheStorage});
