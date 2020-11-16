@@ -8,13 +8,13 @@ import '../../cache/cache.dart';
 import '../../models/models.dart';
 
 class LoalLoadSurveys implements LoadSurveys {
-  final FetchCacheStorage fetchCacheStorage;
+  final CacheStorage cacheStorage;
 
-  LoalLoadSurveys({@required this.fetchCacheStorage});
+  LoalLoadSurveys({@required this.cacheStorage});
 
   Future<List<SurveyEntity>> load() async {
     try {
-      final data = await fetchCacheStorage.fetch('surveys');
+      final data = await cacheStorage.fetch('surveys');
       if (data?.isEmpty != false) {
         throw Exception();
       }
