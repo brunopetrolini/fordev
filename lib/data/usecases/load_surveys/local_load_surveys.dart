@@ -26,4 +26,8 @@ class LoalLoadSurveys implements LoadSurveys {
       throw DomainError.unexpected;
     }
   }
+
+  void validate() async {
+    await cacheStorage.fetch('surveys');
+  }
 }
