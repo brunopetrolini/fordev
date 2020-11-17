@@ -123,7 +123,6 @@ void main() {
   group('validate', () {
     LoalLoadSurveys sut;
     CacheStorage cacheStorage;
-    List<Map> data;
 
     List<Map> mockValidData() => [
           {
@@ -143,9 +142,10 @@ void main() {
     PostExpectation mockFetchCall() => when(cacheStorage.fetch(any));
 
     void mockFetch(List<Map> list) {
-      data = mockValidData();
       mockFetchCall().thenAnswer((_) async => list);
     }
+
+    void mockFetchError() => mockFetchCall().thenThrow(Exception());
 
     setUp(() {
       cacheStorage = CacheStorageSpy();
@@ -181,6 +181,14 @@ void main() {
           'didAnswer': 'false',
         }
       ]);
+
+      await sut.validate();
+
+      verify(cacheStorage.delete('surveys')).called(1);
+    });
+
+    test('Should delete cache if it throws', () async {
+      mockFetchError();
 
       await sut.validate();
 
