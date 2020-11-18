@@ -18,6 +18,6 @@ class LocalStorageAdapter implements CacheStorage {
   }
 
   Future<dynamic> fetch(String key) async {
-    return await localStorage.getItem(key);
+    await localStorage.getItem(key);
   }
 }
