@@ -4,10 +4,10 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:meta/meta.dart';
 
-class LocalStorageAdpater {
+class LocalStorageAdapter {
   final LocalStorage localStorage;
 
-  LocalStorageAdpater({@required this.localStorage});
+  LocalStorageAdapter({@required this.localStorage});
 
   Future<void> save({@required String key, @required dynamic value}) async {
     await localStorage.setItem(key, value);
@@ -17,12 +17,19 @@ class LocalStorageAdpater {
 class LocalStorageSpy extends Mock implements LocalStorage {}
 
 void main() {
-  test('Should call localStorage with correct values', () async {
-    final key = faker.randomGenerator.string(5);
-    final value = faker.randomGenerator.string(50);
-    final localStorage = LocalStorageSpy();
-    final sut = LocalStorageAdpater(localStorage: localStorage);
+  LocalStorageAdapter sut;
+  LocalStorage localStorage;
+  String key;
+  dynamic value;
 
+  setUp(() {
+    key = faker.randomGenerator.string(5);
+    value = faker.randomGenerator.string(50);
+    localStorage = LocalStorageSpy();
+    sut = LocalStorageAdapter(localStorage: localStorage);
+  });
+
+  test('Should call localStorage with correct values', () async {
     await sut.save(key: key, value: value);
 
     verify(localStorage.setItem(key, value));
