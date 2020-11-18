@@ -7,10 +7,10 @@ import '../../../domain/helpers/helpers.dart';
 import '../../cache/cache.dart';
 import '../../models/models.dart';
 
-class LoalLoadSurveys implements LoadSurveys {
+class LocalLoadSurveys implements LoadSurveys {
   final CacheStorage cacheStorage;
 
-  LoalLoadSurveys({@required this.cacheStorage});
+  LocalLoadSurveys({@required this.cacheStorage});
 
   List<SurveyEntity> _mapToEntity(List<Map> list) => list
       .map<SurveyEntity>((json) => LocalSurveyModel.fromJson(json).toEntity())

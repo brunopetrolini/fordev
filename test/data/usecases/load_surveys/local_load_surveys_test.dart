@@ -12,7 +12,7 @@ class CacheStorageSpy extends Mock implements CacheStorage {}
 
 void main() {
   group('load', () {
-    LoalLoadSurveys sut;
+    LocalLoadSurveys sut;
     CacheStorage cacheStorage;
     List<Map> data;
 
@@ -42,7 +42,7 @@ void main() {
 
     setUp(() {
       cacheStorage = CacheStorageSpy();
-      sut = LoalLoadSurveys(cacheStorage: cacheStorage);
+      sut = LocalLoadSurveys(cacheStorage: cacheStorage);
       mockFetch(mockValidData());
     });
 
@@ -121,7 +121,7 @@ void main() {
   });
 
   group('validate', () {
-    LoalLoadSurveys sut;
+    LocalLoadSurveys sut;
     CacheStorage cacheStorage;
 
     List<Map> mockValidData() => [
@@ -149,7 +149,7 @@ void main() {
 
     setUp(() {
       cacheStorage = CacheStorageSpy();
-      sut = LoalLoadSurveys(cacheStorage: cacheStorage);
+      sut = LocalLoadSurveys(cacheStorage: cacheStorage);
       mockFetch(mockValidData());
     });
 
@@ -197,7 +197,7 @@ void main() {
   });
 
   group('save', () {
-    LoalLoadSurveys sut;
+    LocalLoadSurveys sut;
     CacheStorage cacheStorage;
     List<SurveyEntity> surveys;
 
@@ -222,7 +222,7 @@ void main() {
 
     setUp(() {
       cacheStorage = CacheStorageSpy();
-      sut = LoalLoadSurveys(cacheStorage: cacheStorage);
+      sut = LocalLoadSurveys(cacheStorage: cacheStorage);
       surveys = mockSurveys();
     });
 
