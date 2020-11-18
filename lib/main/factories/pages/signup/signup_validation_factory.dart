@@ -2,8 +2,7 @@ import '../../../../validation/protocols/protocols.dart';
 
 import '../../../../presentation/protocols/validation.dart';
 
-import '../../../../validation/validators/validators.dart';
-
+import '../../../composites/composites.dart';
 import '../../../builders/builders.dart';
 
 Validation makeSignUpValidation() =>
