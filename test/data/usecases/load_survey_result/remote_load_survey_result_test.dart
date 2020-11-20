@@ -1,4 +1,6 @@
 import 'package:faker/faker.dart';
+import 'package:for_dev/domain/entities/entities.dart';
+import 'package:for_dev/domain/helpers/helpers.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -42,6 +44,8 @@ void main() {
     mockRequest().thenAnswer((_) async => data);
   }
 
+  void mockHttpError(HttpError error) => mockRequest().thenThrow(error);
+
   setUp(() {
     url = faker.internet.httpUrl();
     httpClient = HttpClientSpy();
@@ -53,5 +57,63 @@ void main() {
     await sut.loadBySurvey();
 
     verify(httpClient.request(url: url, method: 'get'));
+  });
+
+  test('Should return surveyResult on 200', () async {
+    final result = await sut.loadBySurvey();
+
+    expect(
+        result,
+        SurveyResultEntity(
+          surveyId: surveyResult['surveyId'],
+          question: surveyResult['question'],
+          answers: [
+            SurveyAnswerEntity(
+              image: surveyResult['answers'][0]['image'],
+              answer: surveyResult['answers'][0]['answers'],
+              percent: surveyResult['answers'][0]['percent'],
+              isCurrentAnswer: surveyResult['answers'][0]['isCurrentAnswer'],
+            ),
+            SurveyAnswerEntity(
+              answer: surveyResult['answers'][1]['answers'],
+              percent: surveyResult['answers'][1]['percent'],
+              isCurrentAnswer: surveyResult['answers'][1]['isCurrentAnswer'],
+            )
+          ],
+        ));
+  });
+
+  test(
+      'Should throw UnexpectedError if httpClient return 200 with invalid data',
+      () async {
+    mockHttpData({'invalid_key': 'invalid_value'});
+
+    final future = sut.loadBySurvey();
+
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test('Should throw UnexpectedError if HttpClient returns 404', () async {
+    mockHttpError(HttpError.notFound);
+
+    final future = sut.loadBySurvey();
+
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test('Should throw UnexpectedError if HttpClient returns 500', () async {
+    mockHttpError(HttpError.serverError);
+
+    final future = sut.loadBySurvey();
+
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test('Should throw AccessDenied if HttpError returns 403', () async {
+    mockHttpError(HttpError.forbidden);
+
+    final future = sut.loadBySurvey();
+
+    expect(future, throwsA(DomainError.accessDenied));
   });
 }

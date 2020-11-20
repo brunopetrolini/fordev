@@ -4,7 +4,7 @@ void showLoading(BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    child: SimpleDialog(
+    builder: (_) => SimpleDialog(
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
