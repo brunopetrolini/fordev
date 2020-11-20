@@ -1,16 +1,93 @@
-# for_dev
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
 
-A new Flutter project.
+# **ForDev - Enquetes para Programadores**
 
-## Getting Started
+## [**Link para a documentação da API**](http://fordevs.herokuapp.com/api-docs)
 
-This project is a starting point for a Flutter application.
+> ## Princípios
 
-A few resources to get you started if this is your first Flutter project:
+* Single Responsibility Principle (SRP)
+* Open Closed Principle (OCP)
+* Liskov Substitution Principle (LSP)
+* Interface Segregation Principle (ISP)
+* Dependency Inversion Principle (DIP)
+* Separation of Concerns (SOC)
+* Don't Repeat Yourself (DRY)
+* You Aren't Gonna Need It (YAGNI)
+* Keep It Simple, Silly (KISS)
+* Command Query Responsibility Segregation (CQRS)
+* Composition Over Inheritance
+* Small Commits
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+> ## Design Patterns
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* Factory
+* Adapter
+* Composite
+* Decorator
+* Dependency Injection
+* Abstract Server
+* Composition Root
+* Builder
+* Singleton
+* Observer
+* Strategy
+* AAA (Arrange, Act and Assert)
+
+> ## Metodologias e Designs
+
+* TDD
+* BDD
+* Clean Architecture
+* Reactive Programming
+* GitFlow
+* Modular Design
+* Dependency Diagrams
+* Use Cases
+
+> ## Bibliotecas e Ferramentas
+
+* Flutter
+* Http
+* Provider
+* GetX
+* Equatable
+* Mockito
+* Faker
+* Meta
+* Git
+* Flutter Secure Storage
+* LocalStorage
+* Image Test Utils
+
+> ## Features do Dart/Flutter
+* Classes
+* Abstract Classes
+* Functions
+* Constants
+* Mixins
+* Extensions
+* Enums
+* Exceptions
+* Futures
+* Streams
+* Constructors
+* Async/Await
+* Stateless Widgets
+* Stateful Widgets
+* Material Theme
+* Assets
+* App Icon
+
+> ## Features de Testes
+
+* Testes Unitários
+* Testes de Widgets
+* Testes de Streams
+* Testes de Integração
+* Cobertura de Testes
+* Test Doubles
+* Mocks
+* Stubs
+* Spies
