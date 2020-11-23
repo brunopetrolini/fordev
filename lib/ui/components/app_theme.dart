@@ -5,6 +5,9 @@ ThemeData makeAppTheme() {
   final kPrimaryColorDark = Color.fromRGBO(96, 0, 39, 1);
   final kPrimaryColorLight = Color.fromRGBO(188, 71, 123, 1);
   final kSecondaryColorDark = Color.fromRGBO(0, 37, 26, 1);
+  final kSecondaryColor = Color.fromRGBO(0, 77, 64, 1);
+  final kDisableColor = Colors.grey[400];
+  final kDividerColor = Colors.grey;
 
   return ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -13,6 +16,9 @@ ThemeData makeAppTheme() {
     primaryColorLight: kPrimaryColorLight,
     secondaryHeaderColor: kSecondaryColorDark,
     accentColor: kPrimaryColor,
+    disabledColor: kDisableColor,
+    dividerColor: kDividerColor,
+    highlightColor: kSecondaryColor,
     backgroundColor: Colors.white,
     textTheme: TextTheme(
       headline1: TextStyle(
