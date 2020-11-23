@@ -18,12 +18,13 @@ class App extends StatelessWidget {
       defaultTransition: Transition.fadeIn,
       debugShowCheckedModeBanner: false,
       theme: makeAppTheme(),
-      initialRoute: '/',
+      initialRoute: '/survey_result/1',
       getPages: [
         GetPage(name: '/', page: makeSplashPage),
         GetPage(name: '/login', page: makeLoginPage),
         GetPage(name: '/signup', page: makeSignUpPage),
         GetPage(name: '/surveys', page: makeSurveysPage),
+        GetPage(name: '/survey_result/:survey_id', page: makeSurveyResultPage),
       ],
     );
   }
