@@ -96,4 +96,16 @@ void main() {
     expect(find.text('Recarregar'), findsOneWidget);
     expect(find.text('Question 1'), findsNothing);
   });
+
+  testWidgets('Should call LoadSurveyResult on reload button click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    surveysResultController
+        .addError('Algo errado aconteceu. Tente novamente em breve.');
+    await tester.pump();
+    await tester.tap(find.text('Recarregar'));
+
+    verify(presenter.loadData()).called(2);
+  });
 }
