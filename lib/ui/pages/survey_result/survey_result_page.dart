@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../components/components.dart';
 
 import 'components/components.dart';
-import 'survey_result_presenter.dart';
+
+import '../pages.dart';
 
 class SurveyResultPage extends StatelessWidget {
   final SurveyResultPresenter presenter;
@@ -26,7 +27,7 @@ class SurveyResultPage extends StatelessWidget {
         });
         presenter.loadData();
 
-        return StreamBuilder<dynamic>(
+        return StreamBuilder<SurveyResultViewModel>(
             stream: presenter.surveysResultStream,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -36,7 +37,7 @@ class SurveyResultPage extends StatelessWidget {
                 );
               }
               if (snapshot.hasData) {
-                return SurveyResult();
+                return SurveyResult(snapshot.data);
               } else {
                 return Container();
               }
