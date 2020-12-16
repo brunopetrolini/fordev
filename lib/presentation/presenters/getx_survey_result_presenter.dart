@@ -13,9 +13,11 @@ class GetxSurveyResultPresenter extends GetxController
 
   final _isLoading = true.obs;
   final _surveyResult = Rx<SurveyResultViewModel>();
+  final _navigateTo = RxString();
 
   Stream<bool> get isLoadingStream => _isLoading.stream;
   Stream<SurveyResultViewModel> get surveyResultStream => _surveyResult.stream;
+  Stream<String> get navigateToStream => _navigateTo.stream;
 
   GetxSurveyResultPresenter({@required this.loadSurveyResult, this.surveyId});
 
