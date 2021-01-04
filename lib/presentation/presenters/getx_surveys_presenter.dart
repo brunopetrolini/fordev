@@ -13,10 +13,12 @@ class GetxSurveysPresenter extends GetxController implements SurveysPresenter {
   final _isLoading = true.obs;
   final _surveys = Rx<List<SurveyViewModel>>();
   final _navigateTo = RxString();
+  final _isSessionExpired = RxBool();
 
   Stream<bool> get isLoadingStream => _isLoading.stream;
   Stream<List<SurveyViewModel>> get surveysStream => _surveys.stream;
   Stream<String> get navigateToStream => _navigateTo.stream;
+  Stream<bool> get isSessionExpiredStream => _isSessionExpired.stream;
 
   GetxSurveysPresenter({@required this.loadSurveys});
 
@@ -33,9 +35,13 @@ class GetxSurveysPresenter extends GetxController implements SurveysPresenter {
                 didAnswer: survey.didAnswer),
           )
           .toList();
-    } on DomainError {
-      _surveys.subject
-          .addError('Algo errado aconteceu. Tente novamente em breve');
+    } on DomainError catch (error) {
+      if (error == DomainError.accessDenied) {
+        _isSessionExpired.value = true;
+      } else {
+        _surveys.subject
+            .addError('Algo errado aconteceu. Tente novamente em breve');
+      }
     } finally {
       _isLoading.value = false;
     }
