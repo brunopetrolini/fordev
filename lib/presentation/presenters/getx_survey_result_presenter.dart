@@ -6,26 +6,23 @@ import '../../domain/usecases/usecases.dart';
 
 import '../../ui/pages/pages.dart';
 
+import '../mixins/mixins.dart';
+
 class GetxSurveyResultPresenter extends GetxController
+    with LoadingManager, SessionManager
     implements SurveyResultPresenter {
   final LoadSurveyResult loadSurveyResult;
   final String surveyId;
 
-  final _isLoading = true.obs;
   final _surveyResult = Rx<SurveyResultViewModel>();
-  final _navigateTo = RxString();
-  final _isSessionExpired = RxBool();
 
-  Stream<bool> get isLoadingStream => _isLoading.stream;
   Stream<SurveyResultViewModel> get surveyResultStream => _surveyResult.stream;
-  Stream<String> get navigateToStream => _navigateTo.stream;
-  Stream<bool> get isSessionExpiredStream => _isSessionExpired.stream;
 
   GetxSurveyResultPresenter({@required this.loadSurveyResult, this.surveyId});
 
   Future<void> loadData() async {
     try {
-      _isLoading.value = true;
+      isLoading = true;
 
       final surveyResult =
           await loadSurveyResult.loadBySurvey(surveyId: surveyId);
@@ -44,13 +41,13 @@ class GetxSurveyResultPresenter extends GetxController
       );
     } on DomainError catch (error) {
       if (error == DomainError.accessDenied) {
-        _isSessionExpired.value = true;
+        isSessionExpired = true;
       } else {
         _surveyResult.subject
             .addError('Algo errado aconteceu. Tente novamente em breve');
       }
     } finally {
-      _isLoading.value = false;
+      isLoading = false;
     }
   }
 }

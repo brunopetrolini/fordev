@@ -8,7 +8,11 @@ import '../../domain/usecases/usecases.dart';
 
 import '../protocols/protocols.dart';
 
-class GetxLoginPresenter extends GetxController implements LoginPresenter {
+import '../mixins/mixins.dart';
+
+class GetxLoginPresenter extends GetxController
+    with LoadingManager, NavigationManager, MainErrorManager, FormManager
+    implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
   final SaveCurrentAccount saveCurrentAccout;
@@ -18,17 +22,9 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
 
   var _emailError = RxString();
   var _passwordError = RxString();
-  var _mainError = RxString();
-  var _isFormValid = false.obs;
-  var _isLoading = false.obs;
-  var _navigateTo = RxString();
 
-  Stream<String> get emailErrorStream => _emailError.stream.distinct();
-  Stream<String> get passwordErrorStream => _passwordError.stream.distinct();
-  Stream<String> get mainErrorStream => _mainError.stream.distinct();
-  Stream<bool> get isFormValidStream => _isFormValid.stream.distinct();
-  Stream<bool> get isLoadingStream => _isLoading.stream.distinct();
-  Stream<String> get navigateToStream => _navigateTo.stream;
+  Stream<String> get emailErrorStream => _emailError.stream;
+  Stream<String> get passwordErrorStream => _passwordError.stream;
 
   GetxLoginPresenter({
     @required this.validation,
@@ -52,28 +48,28 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   }
 
   void _validateForm() {
-    _isFormValid.value = _emailError.value == null &&
+    isFormValid = _emailError.value == null &&
         _passwordError.value == null &&
         _email != null &&
         _password != null;
   }
 
   Future<void> auth() async {
-    _isLoading.value = true;
+    isLoading = true;
 
     try {
-      _mainError.value = null;
+      mainError = null;
       final account = await authentication
           .auth(AuthenticationParams(email: _email, secret: _password));
       await saveCurrentAccout.save(account);
-      _navigateTo.value = '/surveys';
+      navigateTo = '/surveys';
     } on DomainError catch (error) {
-      _mainError.value = error.description;
-      _isLoading.value = false;
+      mainError = error.description;
+      isLoading = false;
     }
   }
 
   void goToSignUp() {
-    _navigateTo.value = '/signup';
+    navigateTo = '/signup';
   }
 }
